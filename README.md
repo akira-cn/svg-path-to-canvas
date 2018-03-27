@@ -9,7 +9,7 @@ npm install svg-path-to-canvas
 ```js
 const canvas = document.querySelector('canvas')
 const context = canvas.getContext('2d')
-const pathToCanvas = request('svg-path-to-canvas')
+const pathToCanvas = require('svg-path-to-canvas')
 
 const commands = pathToCanvas('M280,250A200,200,0,1,1,680,250A200,200,0,1,1,180,250Z')
 

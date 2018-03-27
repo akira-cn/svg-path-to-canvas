@@ -1,4 +1,4 @@
-const arcToBezier = require('svg-arc-to-cubic-bezier')
+import arcToBezier from 'svg-arc-to-cubic-bezier'
 const {parseSVG, makeAbsolute} = require('svg-path-parser')
 
 module.exports = function (d) {
