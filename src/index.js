@@ -1,4 +1,5 @@
 import arcToBezier from 'svg-arc-to-cubic-bezier'
+import getBounds from './path-bounds'
 const {parseSVG, makeAbsolute} = require('svg-path-parser')
 
 module.exports = function (d) {
@@ -82,5 +83,5 @@ module.exports = function (d) {
       canvasCommands.push({cmd: 'lineTo', args: [x, y]})
     }
   }
-  return canvasCommands
+  return {commands: canvasCommands, d: d, bounds: getBounds(d)}
 }

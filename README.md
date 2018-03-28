@@ -11,7 +11,7 @@ const canvas = document.querySelector('canvas')
 const context = canvas.getContext('2d')
 const pathToCanvas = require('svg-path-to-canvas')
 
-const commands = pathToCanvas('M280,250A200,200,0,1,1,680,250A200,200,0,1,1,180,250Z')
+const {commands} = pathToCanvas('M280,250A200,200,0,1,1,680,250A200,200,0,1,1,180,250Z')
 
 context.strokeStyle = 'red'
 commands.forEach(cmd => {
