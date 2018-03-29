@@ -79,8 +79,7 @@ export function pathToCanvas (d) {
       footprint = [x, y]
       canvasCommands.push({cmd: 'quadraticCurveTo', args: [...prev, x, y]})
     } else if (cmd.code === 'Z') {
-      const {x, y} = cmd
-      canvasCommands.push({cmd: 'lineTo', args: [x, y]})
+      canvasCommands.push({cmd: 'closePath', args: []})
     }
   }
   return {commands: canvasCommands, d: d}
