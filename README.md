@@ -3,7 +3,7 @@
 针对一些不支持[Path2D](https://developer.mozilla.org/en-US/docs/Web/API/Path2D) API的canvas环境（比如微信小程序），提供将svg path转换成canvas命令的方法。
 
 ```html
-<script src="https://s1.ssl.qhres.com/!c9ad81aa/svg-path-to-canvas.min.js"></script>
+<script src="https://s0.ssl.qhres.com/!05f94641/svg-path-to-canvas.min.js"></script>
 ```
 
 ```bash

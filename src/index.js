@@ -62,6 +62,7 @@ class SvgPath {
     const commands = this[_path]
     if(commands.length) {
       context.save()
+      context.beginPath()
       commands.forEach((c) => {
         const [cmd, ...args] = c
         if(cmd === 'M') {
