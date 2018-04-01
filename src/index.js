@@ -118,6 +118,7 @@ class SvgPath {
     return this.transform(...m.m)
   }
   scale(sx, sy) {
+    if(sy == null) sy = sx
     const m = new Matrix().scale(sx, sy)
     return this.transform(...m.m)
   }
