@@ -1,88 +1,129 @@
-import arcToBezier from 'svg-arc-to-cubic-bezier'
-import getBounds from './path-bounds'
-const {parseSVG, makeAbsolute} = require('svg-path-parser')
+const parse = require('./parse-svg-path')
+const abs = require('./abs-svg-path')
+const normalize = require('./normalize-svg-path')
+const isSvgPath = require('./is-svg-path')
+import {Matrix} from 'sprite-math'
+import {isPointInPath, getPointAtLength, getTotalLength} from './platform'
 
-export function pathToCanvas (d) {
-  const commands = makeAbsolute(parseSVG(d))
-  const parsedCommands = []
-  commands.forEach((command) => {
-    if (command.code === 'A') {
-      const {x0, y0, x, y, rx, ry, xAxisRotation, largeArc, sweep} = command
-      const curves = arcToBezier({
-        px: x0,
-        py: y0,
-        cx: x,
-        cy: y,
-        rx,
-        ry,
-        xAxisRotation,
-        largeArcFlag: largeArc,
-        sweepFlag: sweep
-      }).map(curve => {
-        const {x1, y1, x2, y2, x, y} = curve
-        return Object.assign({
-          x1: Math.round(x1),
-          y1: Math.round(y1),
-          x2: Math.round(x2),
-          y2: Math.round(y2),
-          x: Math.round(x),
-          y: Math.round(y)}, {code: 'c', command: 'curveto'})
-      })
-      parsedCommands.push(...curves)
-    } else {
-      parsedCommands.push(command)
+const _path = Symbol('path')
+const _bounds = Symbol('bounds')
+const _savedPaths = Symbol('savedPaths')
+
+class SvgPath {
+  constructor(d) {
+    if(!isSvgPath(d)) {
+      throw new Error('Not an SVG path!')
     }
-  })
-  let footprint = [0, 0]
-  let prev = null
-  const canvasCommands = []
-  for (let i = 0; i < parsedCommands.length; i++) {
-    const cmd = parsedCommands[i]
-    if (cmd.code !== 'c') {
-      const {x0, y0} = cmd
-      if (footprint[0] !== x0 || footprint[1] !== y0) {
-        canvasCommands.push({cmd: 'moveTo', args: [x0, y0]})
-      }
-    }
-    if (cmd.code === 'M') {
-      const {x, y} = cmd
-      footprint = [x, y]
-      canvasCommands.push({cmd: 'moveTo', args: [x, y]})
-    } else if (cmd.code === 'L') {
-      const {x, y} = cmd
-      footprint = [x, y]
-      canvasCommands.push({cmd: 'lineTo', args: [x, y]})
-    } else if (cmd.code === 'V') {
-      const {y} = cmd
-      footprint = [footprint[0], y]
-      canvasCommands.push({cmd: 'lineTo', args: [...footprint]})
-    } else if (cmd.code === 'H') {
-      const {x} = cmd
-      footprint = [x, footprint[1]]
-      canvasCommands.push({cmd: 'lineTo', args: [...footprint]})
-    } else if (cmd.code === 'C' || cmd.code === 'c') {
-      const {x1, y1, x2, y2, x, y} = cmd
-      footprint = [x, y]
-      prev = [x1, y1]
-      canvasCommands.push({cmd: 'bezierCurveTo', args: [x1, y1, x2, y2, x, y]})
-    } else if (cmd.code === 'S') {
-      const {x2, y2, x, y} = cmd
-      footprint = [x, y]
-      canvasCommands.push({cmd: 'bezierCurveTo', args: [...prev, x2, y2, x, y]})
-    } else if (cmd.code === 'Q') {
-      const {x1, y1, x, y} = cmd
-      footprint = [x, y]
-      prev = [x1, y1]
-      canvasCommands.push({cmd: 'quadraticCurveTo', args: [x1, y1, x, y]})
-    } else if (cmd.code === 'T') {
-      const {x, y} = cmd
-      footprint = [x, y]
-      canvasCommands.push({cmd: 'quadraticCurveTo', args: [...prev, x, y]})
-    } else if (cmd.code === 'Z') {
-      canvasCommands.push({cmd: 'closePath', args: []})
+
+    const path = normalize(abs(parse(d)))
+    this[_path] = path
+
+    this[_bounds] = null
+
+    this[_savedPaths] = []
+  }
+  save() {
+    this[_savedPaths].push({path: this[_path], bounds: this[_bounds]})
+  }
+  restore() {
+    if(this[_savedPaths].length) {
+      const {path, bounds} = this[_savedPaths].pop()
+      this[_path] = path
+      this[_bounds] = bounds
     }
   }
-  return {commands: canvasCommands, d: d}
+  get bounds() {
+    if(!this[_bounds]) {
+      const path = this[_path]
+      this[_bounds] = [0, 0, 0, 0]
+      if(path.length) {
+        const bounds = [Infinity, Infinity, -Infinity, -Infinity]
+
+        for(let i = 0, l = path.length; i < l; i++) {
+          const points = path[i].slice(1)
+
+          for(let j = 0; j < points.length; j += 2) {
+            if(points[j + 0] < bounds[0]) bounds[0] = points[j + 0]
+            if(points[j + 1] < bounds[1]) bounds[1] = points[j + 1]
+            if(points[j + 0] > bounds[2]) bounds[2] = points[j + 0]
+            if(points[j + 1] > bounds[3]) bounds[3] = points[j + 1]
+          }
+        }
+        this[_bounds] = bounds
+      }
+    }
+    return this[_bounds]
+  }
+  get center() {
+    const [x0, y0, x1, y1] = this.bounds
+    return [(x0 + x1) / 2, (y0 + y1) / 2]
+  }
+  render(context) {
+    const commands = this[_path]
+    if(commands.length) {
+      context.save()
+      commands.forEach((c) => {
+        const [cmd, ...args] = c
+        if(cmd === 'M') {
+          context.moveTo(...args)
+        } else {
+          context.bezierCurveTo(...args)
+        }
+      })
+      context.restore()
+    }
+  }
+  get d() {
+    return this[_path].map((p) => {
+      const [c, ...points] = p
+      return c + points.join()
+    }).join('')
+  }
+  get path() {
+    return this[_path]
+  }
+  isPointInPath(x, y) {
+    return isPointInPath(this, x, y)
+  }
+  getPointAtLength(len) {
+    return getPointAtLength(this.d, len)
+  }
+  getTotalLength() {
+    return getTotalLength(this.d)
+  }
+  transform(...args) {
+    this[_bounds] = null
+    const m = new Matrix(args)
+    const commands = this[_path]
+    this[_path] = commands.map((c) => {
+      const [cmd, ...args] = c
+      const transformed = [cmd]
+      for(let i = 0; i < args.length; i += 2) {
+        const x0 = args[i],
+          y0 = args[i + 1]
+        const [x, y] = m.transformPoint(x0, y0)
+        transformed.push(x, y)
+      }
+      return transformed
+    })
+    return this
+  }
+  translate(x, y) {
+    const m = new Matrix().translate(x, y)
+    return this.transform(...m.m)
+  }
+  rotate(deg) {
+    const m = new Matrix().rotate(deg)
+    return this.transform(...m.m)
+  }
+  scale(sx, sy) {
+    const m = new Matrix().scale(sx, sy)
+    return this.transform(...m.m)
+  }
+  skew(degX, degY) {
+    const m = new Matrix().skew(degX, degY)
+    return this.transform(...m.m)
+  }
 }
 
-export {getBounds}
+module.exports = SvgPath
