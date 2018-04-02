@@ -11,32 +11,24 @@ npm install svg-path-to-canvas
 ```
 
 ```js
-const d = 'M638.9,259.3v-23.8H380.4c-0.7-103.8-37.3-200.6-37.3-200.6s-8.5,0-22.1,0C369.7,223,341.4,465,341.4,465h22.1c0,0,11.4-89.5,15.8-191h210.2l11.9,191h22.1c0,0-5.3-96.6-0.6-205.7H638.9z'
+const d = 'M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2 c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z'
 
 const sp = new SvgPath(d)
-console.log(sp)
 const [cx, cy] = sp.center
-sp.save()
-sp.translate(-cx, -cy)
-//sp.translate(-100, -100)
-sp.rotate(45)
-sp.translate(cx, cy)
 
 const context = mycanvas.getContext('2d')
-context.strokeStyle = 'red'
-context.lineWidth = 3
-sp.render(context)
-context.stroke()
 
-console.log(sp.bounds)
-console.log(sp.getTotalLength())
-console.log(sp.getPointAtLength(10))
-
-mycanvas.addEventListener('click', evt => {
-  const {clientX, clientY} = evt  
-  console.log(sp.isPointInPath(clientX, clientY))
-  console.log(context.isPointInPath(clientX, clientY))
-})
+sp.save()
+  .beginPath()
+  .translate(-cx, -cy)
+  .rotate(45)
+  .scale(10)
+  .translate(cx, cy)
+  .translate(350, 350)
+  .strokeStyle('red')
+  .lineWidth(3)
+  .to(context)
+  .stroke()
 ```
 
-![](https://p4.ssl.qhimg.com/t01b1451d9c057cdfb9.png)
+![](https://p1.ssl.qhimg.com/t0169d65a65437938a7.png)

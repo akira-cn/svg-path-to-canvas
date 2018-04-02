@@ -8,6 +8,8 @@ import {isPointInPath, getPointAtLength, getTotalLength} from './platform'
 const _path = Symbol('path')
 const _bounds = Symbol('bounds')
 const _savedPaths = Symbol('savedPaths')
+const _renderProps = Symbol('renderProps')
+const _beginPath = Symbol('beginPath')
 
 class SvgPath {
   constructor(d) {
@@ -19,18 +21,24 @@ class SvgPath {
     this[_path] = path
 
     this[_bounds] = null
-
     this[_savedPaths] = []
+    this[_renderProps] = {}
+    this[_beginPath] = false
   }
   save() {
-    this[_savedPaths].push({path: this[_path], bounds: this[_bounds]})
+    this[_savedPaths].push({path: this[_path],
+      bounds: this[_bounds],
+      renderProps: Object.assign({}, this[_renderProps])})
+    return this
   }
   restore() {
     if(this[_savedPaths].length) {
-      const {path, bounds} = this[_savedPaths].pop()
+      const {path, bounds, renderProps} = this[_savedPaths].pop()
       this[_path] = path
       this[_bounds] = bounds
+      this[_renderProps] = renderProps
     }
+    return this
   }
   get bounds() {
     if(!this[_bounds]) {
@@ -57,22 +65,6 @@ class SvgPath {
   get center() {
     const [x0, y0, x1, y1] = this.bounds
     return [(x0 + x1) / 2, (y0 + y1) / 2]
-  }
-  render(context) {
-    const commands = this[_path]
-    if(commands.length) {
-      context.save()
-      context.beginPath()
-      commands.forEach((c) => {
-        const [cmd, ...args] = c
-        if(cmd === 'M') {
-          context.moveTo(...args)
-        } else {
-          context.bezierCurveTo(...args)
-        }
-      })
-      context.restore()
-    }
   }
   get d() {
     return this[_path].map((p) => {
@@ -125,6 +117,58 @@ class SvgPath {
   skew(degX, degY) {
     const m = new Matrix().skew(degX, degY)
     return this.transform(...m.m)
+  }
+  beginPath() {
+    this[_beginPath] = true
+    return this
+  }
+  to(context) {
+    const commands = this[_path]
+    const renderProps = this[_renderProps]
+    if(commands.length) {
+      if(this[_beginPath]) {
+        context.beginPath()
+      }
+      commands.forEach((c) => {
+        const [cmd, ...args] = c
+        if(cmd === 'M') {
+          context.moveTo(...args)
+        } else {
+          context.bezierCurveTo(...args)
+        }
+      })
+    }
+    Object.assign(context, renderProps)
+    return {
+      stroke() {
+        context.stroke()
+        return this
+      },
+      fill() {
+        context.fill()
+        return this
+      },
+    }
+  }
+  strokeStyle(value) {
+    this[_renderProps].strokeStyle = value
+    return this
+  }
+  fillStyle(value) {
+    this[_renderProps].fillStyle = value
+    return this
+  }
+  lineWidth(value) {
+    this[_renderProps].lineWidth = value
+    return this
+  }
+  lineCap(value) {
+    this[_renderProps].lineCap = value
+    return this
+  }
+  lineJoin(value) {
+    this[_renderProps].lineJoin = value
+    return this
   }
 }
 
