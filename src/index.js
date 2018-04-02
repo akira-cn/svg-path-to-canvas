@@ -118,6 +118,11 @@ class SvgPath {
     const m = new Matrix().skew(degX, degY)
     return this.transform(...m.m)
   }
+  trim() {
+    const [x, y] = this.bounds
+    this.translate(-x, -y)
+    return this
+  }
   beginPath() {
     this[_beginPath] = true
     return this
