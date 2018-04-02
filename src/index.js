@@ -18,6 +18,7 @@ class SvgPath {
     }
 
     const path = normalize(abs(parse(d)))
+
     this[_path] = path
 
     this[_bounds] = null

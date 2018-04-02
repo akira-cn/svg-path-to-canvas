@@ -1,8 +1,8 @@
 module.exports = normalize
 
-/* eslint-disable */
-import arcToBezier from 'svg-arc-to-cubic-bezier'
+const a2c = require('./a2c')
 
+/* eslint-disable */
 function normalize(path){
   // init state
   var prev
@@ -26,20 +26,14 @@ function normalize(path){
         startY = seg[2]
         break
       case 'A':
-        var curves = arcToBezier({
-          px: x,
-          py: y,
-          cx: seg[6],
-          cy:  seg[7],
-          rx: seg[1],
-          ry: seg[2],
-          xAxisRotation: seg[3],
-          largeArcFlag: seg[4],
-          sweepFlag: seg[5]
-        })
+        var curves = a2c(x, y, seg[6], seg[7], seg[4], seg[5], seg[1], seg[2], seg[3])
 
-        // null-curves
         if (!curves.length) continue
+
+        curves = curves.map(curve => {
+          const [x0, y0, x1, y1, x2, y2, x, y] = curve
+          return {x1, y1, x2, y2, x, y}
+        })
 
         for (var j = 0, c; j < curves.length; j++) {
           c = curves[j]
