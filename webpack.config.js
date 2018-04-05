@@ -38,7 +38,8 @@ module.exports = function (env = {}) {
   } else if(env.module) {
     output.filename = 'svg-path-to-canvas.module.js'
     externals = {
-      'sprite-math': 'sprite-math'
+      'sprite-math': 'sprite-math',
+      'babel-runtime': 'babel-runtime',
     }
     output.libraryTarget = 'commonjs2'
   }
