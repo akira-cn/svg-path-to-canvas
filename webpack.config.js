@@ -37,10 +37,7 @@ module.exports = function (env = {}) {
     output.filename = 'svg-path-to-canvas.min.js'
   } else if(env.module) {
     output.filename = 'svg-path-to-canvas.module.js'
-    externals = {
-      'sprite-math': 'sprite-math',
-      'babel-runtime': 'babel-runtime',
-    }
+    externals = ['sprite-math', /^babel-runtime/]
     output.libraryTarget = 'commonjs2'
   }
 
