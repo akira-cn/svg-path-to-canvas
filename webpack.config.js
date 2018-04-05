@@ -9,6 +9,8 @@ module.exports = function (env = {}) {
     plugins = [],
     jsLoaders = []
 
+  let externals = {}
+
   if(env.production) {
     // compress js in production environment
 
@@ -34,7 +36,10 @@ module.exports = function (env = {}) {
   if(env.production) {
     output.filename = 'svg-path-to-canvas.min.js'
   } else if(env.module) {
-    output.filename = 'svg-path-to-canvas.export.js'
+    output.filename = 'svg-path-to-canvas.module.js'
+    externals = {
+      'sprite-math': 'sprite-math'
+    }
     output.libraryTarget = 'commonjs'
   }
 
@@ -60,6 +65,7 @@ module.exports = function (env = {}) {
         use: jsLoaders,
       }],
     },
+    externals,
 
     devServer: {
       open: true,
