@@ -40,7 +40,7 @@ module.exports = function (env = {}) {
     externals = {
       'sprite-math': 'sprite-math'
     }
-    output.libraryTarget = 'commonjs'
+    output.libraryTarget = 'commonjs2'
   }
 
   if(fs.existsSync('./.babelrc')) {
