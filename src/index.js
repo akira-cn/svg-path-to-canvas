@@ -63,6 +63,10 @@ class SvgPath {
     }
     return this[_bounds]
   }
+  get size() {
+    const bounds = this.bounds
+    return [bounds[2] - bounds[0], bounds[3] - bounds[1]]
+  }
   get center() {
     const [x0, y0, x1, y1] = this.bounds
     return [(x0 + x1) / 2, (y0 + y1) / 2]
