@@ -1,10 +1,11 @@
 {
   "name": "svg-path-to-canvas",
-  "version": "1.8.0",
+  "version": "1.8.1",
   "description": "",
   "main": "lib/index.js",
   "browser": {
-    "./src/platform": "./src/platform/browser"
+    "./src/platform": "./src/platform/browser",
+    "./lib/platform": "./lib/platform/browser"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
