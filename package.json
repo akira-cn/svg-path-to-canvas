@@ -1,6 +1,6 @@
 {
   "name": "svg-path-to-canvas",
-  "version": "1.8.1",
+  "version": "1.8.2",
   "description": "",
   "main": "lib/index.js",
   "browser": {
@@ -19,7 +19,7 @@
   "dependencies": {
     "babel-runtime": "^6.26.0",
     "point-at-length": "^1.1.0",
-    "sprite-math": "^1.0.0"
+    "sprite-math": "^1.0.1"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

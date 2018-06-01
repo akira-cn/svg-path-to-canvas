@@ -2733,7 +2733,7 @@ Object.defineProperty(exports, "__esModule", {
  */
 var Matrix = function Matrix(m) {
   m = m || [1, 0, 0, 1, 0, 0];
-  this.m = m.slice(0);
+  this.m = [m[0], m[1], m[2], m[3], m[4], m[5]];
 };
 
 Matrix.prototype.unit = function () {
