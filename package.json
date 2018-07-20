@@ -4,8 +4,7 @@
   "description": "",
   "main": "lib/index.js",
   "browser": {
-    "./src/platform": "./src/platform/browser",
-    "./lib/platform": "./lib/platform/browser"
+    "./lib/index.js": "./src/index.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
