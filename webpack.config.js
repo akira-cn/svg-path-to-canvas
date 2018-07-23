@@ -9,7 +9,8 @@ if(fs.existsSync('./.babelrc')) {
 
 
 module.exports = function (env = {}) {
-  let externals = {}
+  const externals = {}
+  const aliasFields = env.nobrowser ? ['nobrowser'] : ['browser']
   const output = {
     path: path.resolve(__dirname, 'dist'),
     filename: 'svg-path-to-canvas.js',
@@ -21,11 +22,8 @@ module.exports = function (env = {}) {
   if(env.production) {
     output.filename = 'svg-path-to-canvas.min.js'
   }
-
-  if(env.module) {
-    output.filename = 'svg-path-to-canvas.module.js'
-    externals = ['sprite-math', /^babel-runtime/]
-    output.libraryTarget = 'commonjs2'
+  if(env.nobrowser) {
+    output.filename = 'svg-path-to-canvas.nobrowser.js'
   }
 
   return {
@@ -37,7 +35,7 @@ module.exports = function (env = {}) {
       rules: [
         {
           test: /\.js$/,
-          exclude: /(node_modules|bower_components)/,
+          exclude: /node_modules\/(?!(sprite-\w+|svg-path-to-canvas)\/).*/,
           use: {
             loader: 'babel-loader',
             options: babelConf,
@@ -47,7 +45,9 @@ module.exports = function (env = {}) {
 
       /* Advanced module configuration (click to show) */
     },
-
+    resolve: {
+      aliasFields,
+    },
     externals,
     // Don't follow/bundle these modules, but request them at runtime from the environment
 
