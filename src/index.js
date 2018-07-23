@@ -182,4 +182,4 @@ class SvgPath {
   }
 }
 
-module.exports = SvgPath
+export default SvgPath

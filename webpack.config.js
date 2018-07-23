@@ -28,14 +28,14 @@ module.exports = function (env = {}) {
 
   return {
     mode: env.production ? 'production' : 'none',
-    entry: './src/index',
+    entry: './src/_entry',
     output,
 
     module: {
       rules: [
         {
           test: /\.js$/,
-          exclude: /node_modules\/(?!(sprite-\w+|svg-path-to-canvas)\/).*/,
+          exclude: /node_modules\/(?!(sprite-\w+)\/).*/,
           use: {
             loader: 'babel-loader',
             options: babelConf,
