@@ -1,33 +1,18 @@
-// const conf = require('./package.json')
+const path = require('path')
+const fs = require('fs')
+
+let babelConf
+if(fs.existsSync('./.babelrc')) {
+  // use babel
+  babelConf = JSON.parse(fs.readFileSync('.babelrc'))
+}
+
 
 module.exports = function (env = {}) {
-  const webpack = require('webpack'),
-    path = require('path'),
-    fs = require('fs')
-
-  const proxyPort = 9091,
-    plugins = [],
-    jsLoaders = []
-
   let externals = {}
-
-  if(env.production) {
-    // compress js in production environment
-
-    plugins.push(new webpack.optimize.UglifyJsPlugin({
-      output: {
-        comments: false, // remove all comments
-      },
-      compress: {
-        warnings: false,
-        drop_console: false,
-      },
-    }))
-  }
-
   const output = {
-    filename: 'svg-path-to-canvas.js',
     path: path.resolve(__dirname, 'dist'),
+    filename: 'svg-path-to-canvas.js',
     publicPath: '/js/',
     library: 'SvgPath',
     libraryTarget: 'umd',
@@ -35,42 +20,53 @@ module.exports = function (env = {}) {
 
   if(env.production) {
     output.filename = 'svg-path-to-canvas.min.js'
-  } else if(env.module) {
+  }
+
+  if(env.module) {
     output.filename = 'svg-path-to-canvas.module.js'
     externals = ['sprite-math', /^babel-runtime/]
     output.libraryTarget = 'commonjs2'
   }
 
-  if(fs.existsSync('./.babelrc')) {
-    // use babel
-    const babelConf = JSON.parse(fs.readFileSync('.babelrc'))
-    jsLoaders.push({
-      loader: 'babel-loader',
-      options: babelConf,
-    })
-  }
-
   return {
-    entry: './src/index.js',
+    mode: env.production ? 'production' : 'none',
+    entry: './src/index',
     output,
 
-    plugins,
-
     module: {
-      rules: [{
-        test: /\.js$/,
-        exclude: /(node_modules|bower_components)/,
-        use: jsLoaders,
-      }],
+      rules: [
+        {
+          test: /\.js$/,
+          exclude: /(node_modules|bower_components)/,
+          use: {
+            loader: 'babel-loader',
+            options: babelConf,
+          },
+        },
+      ],
+
+      /* Advanced module configuration (click to show) */
     },
+
     externals,
+    // Don't follow/bundle these modules, but request them at runtime from the environment
+
+    stats: 'errors-only',
+    // lets you precisely control what bundle information gets displayed
 
     devServer: {
-      open: true,
-      proxy: {
-        '*': `http://127.0.0.1:${proxyPort}`,
-      },
+      contentBase: path.join(__dirname, 'example'),
+      compress: true,
+      port: 9090,
+      // ...
     },
-    // devtool: 'inline-source-map',
+
+    plugins: [
+      // ...
+    ],
+    // list of additional plugins
+
+
+    /* Advanced configuration (click to show) */
   }
 }

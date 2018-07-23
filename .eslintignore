@@ -1,6 +1,5 @@
 .git
 node_modules
 build
-webpack.config.js
 lib
 dist

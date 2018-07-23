@@ -1,14 +1,15 @@
 {
   "name": "svg-path-to-canvas",
-  "version": "1.8.2",
+  "version": "1.8.4",
   "description": "",
   "main": "lib/index.js",
   "browser": {
-    "./lib/index.js": "./src/index.js"
+    "./lib/index.js": "./src/index.js",
+    "./src/platform": "./src/platform/browser"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack-dev-server -d --quiet --port 9090 & http-server example -c-1 -p 9091",
+    "start": "webpack-dev-server --watch-poll",
     "lint": "eslint 'src/**/*.js' --fix",
     "compile": "rm -rf lib/* && babel src -d lib --watch",
     "build": "rm -rf dist/* && ./script/build.js",
@@ -28,7 +29,8 @@
     "babel-preset-env": "^1.6.1",
     "eslint": "^4.19.1",
     "eslint-config-75team": "^1.0.22",
-    "webpack": "^2.7.0",
-    "webpack-dev-server": "^2.11.2"
+    "webpack": "^4.16.1",
+    "webpack-cli": "^3.1.0",
+    "webpack-dev-server": "^3.1.5"
   }
 }
