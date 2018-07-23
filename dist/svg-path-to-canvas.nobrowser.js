@@ -2203,9 +2203,7 @@ var _vector = __webpack_require__(94);
 
 var _vector2 = _interopRequireDefault(_vector);
 
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : { default: obj };
-}
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.Matrix = _matrix2.default;
 exports.Vector = _vector2.default;
@@ -2371,9 +2369,7 @@ var _createClass2 = __webpack_require__(74);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : { default: obj };
-}
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Vector = function () {
   function Vector(p1) {

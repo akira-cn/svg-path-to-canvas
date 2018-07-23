@@ -10,7 +10,7 @@ if(fs.existsSync('./.babelrc')) {
 
 module.exports = function (env = {}) {
   const externals = {}
-  const aliasFields = env.nobrowser ? ['nobrowser'] : ['browser']
+  const aliasFields = env.nobrowser ? ['nobrowser', 'esnext'] : ['browser', 'esnext']
   const output = {
     path: path.resolve(__dirname, 'dist'),
     filename: 'svg-path-to-canvas.js',
