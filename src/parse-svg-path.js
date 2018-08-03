@@ -1,4 +1,4 @@
-module.exports = parse
+module.exports = parse;
 
 /**
  * expected argument lengths

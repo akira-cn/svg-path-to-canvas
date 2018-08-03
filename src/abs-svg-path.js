@@ -1,4 +1,4 @@
-module.exports = absolutize
+module.exports = absolutize;
 
 /**
  * redefine `path` with absolute coordinates

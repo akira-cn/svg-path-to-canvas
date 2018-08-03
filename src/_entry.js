@@ -1,5 +1,5 @@
 // for webpack
 
-import SvgPath from './index'
+import SvgPath from './index';
 
-module.exports = SvgPath
+module.exports = SvgPath;

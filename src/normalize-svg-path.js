@@ -1,6 +1,6 @@
-module.exports = normalize
+module.exports = normalize;
 
-const a2c = require('./a2c')
+const a2c = require('./a2c');
 
 /* eslint-disable */
 function normalize(path){
