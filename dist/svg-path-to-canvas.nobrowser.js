@@ -159,7 +159,6 @@ var abs = __webpack_require__(125);
 var normalize = __webpack_require__(118);
 var isSvgPath = __webpack_require__(126);
 
-
 var _path = (0, _symbol2.default)('path');
 var _bounds = (0, _symbol2.default)('bounds');
 var _savedPaths = (0, _symbol2.default)('savedPaths');
@@ -3643,6 +3642,8 @@ function quadratic(x1, y1, cx, cy, x2, y2) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
+
+
 // Convert an arc to a sequence of cubic bézier curves
 //
 
@@ -3810,9 +3811,9 @@ module.exports = function a2c(x1, y1, x2, y2, fa, fs, rx, ry, phi) {
   // now need to transform back to the original ellipse
   //
   return result.map(function (curve) {
-    for (var i = 0; i < curve.length; i += 2) {
-      var x = curve[i + 0];
-      var y = curve[i + 1];
+    for (var _i = 0; _i < curve.length; _i += 2) {
+      var x = curve[_i + 0];
+      var y = curve[_i + 1];
 
       // scale
       x *= rx;
@@ -3823,8 +3824,8 @@ module.exports = function a2c(x1, y1, x2, y2, fa, fs, rx, ry, phi) {
       var yp = sin_phi * x + cos_phi * y;
 
       // translate
-      curve[i + 0] = xp + cc[0];
-      curve[i + 1] = yp + cc[1];
+      curve[_i + 0] = xp + cc[0];
+      curve[_i + 1] = yp + cc[1];
     }
 
     return curve;
