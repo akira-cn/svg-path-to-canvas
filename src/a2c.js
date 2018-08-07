@@ -1,3 +1,5 @@
+// https://github.com/colinmeinke/svg-arc-to-cubic-bezier
+//
 // Convert an arc to a sequence of cubic bézier curves
 //
 

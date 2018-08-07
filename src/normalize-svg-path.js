@@ -1,3 +1,5 @@
+// https://github.com/jkroso/normalize-svg-path
+
 module.exports = normalize;
 
 const a2c = require('./a2c');

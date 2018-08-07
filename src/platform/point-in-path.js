@@ -1,3 +1,5 @@
+// https://github.com/maxnachlinger/point-in-svg-path
+
 const clone = (obj) => {
   if(typeof obj === 'function' || Object(obj) !== obj) {
     return obj;

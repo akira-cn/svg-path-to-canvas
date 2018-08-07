@@ -1,3 +1,4 @@
+// https://github.com/dy/is-svg-path
 
 module.exports = function isPath(str) {
   if(typeof str !== 'string') return false;

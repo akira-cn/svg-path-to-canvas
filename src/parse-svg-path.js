@@ -1,3 +1,5 @@
+// https://github.com/jkroso/parse-svg-path
+
 module.exports = parse;
 
 /**

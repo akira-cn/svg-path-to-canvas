@@ -1,3 +1,5 @@
+// https://github.com/jkroso/abs-svg-path
+
 module.exports = absolutize;
 
 /**
