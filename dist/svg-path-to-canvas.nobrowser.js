@@ -2221,7 +2221,9 @@ var _vector = __webpack_require__(95);
 
 var _vector2 = _interopRequireDefault(_vector);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
 
 exports.Matrix = _matrix2.default;
 exports.Vector = _vector2.default;
@@ -2387,7 +2389,9 @@ var _createClass2 = __webpack_require__(75);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
 
 var Vector = function () {
   function Vector(p1) {
@@ -3064,6 +3068,8 @@ exports.default = pointInPath;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// https://github.com/maxnachlinger/point-in-svg-path
+
 var clone = function clone(obj) {
   if (typeof obj === 'function' || Object(obj) !== obj) {
     return obj;
@@ -3519,6 +3525,8 @@ var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// https://github.com/jkroso/normalize-svg-path
+
 module.exports = normalize;
 
 var a2c = __webpack_require__(119);
@@ -3644,6 +3652,8 @@ function quadratic(x1, y1, cx, cy, x2, y2) {
 "use strict";
 
 
+// https://github.com/colinmeinke/svg-arc-to-cubic-bezier
+//
 // Convert an arc to a sequence of cubic bézier curves
 //
 
@@ -4201,6 +4211,8 @@ function absolutize(path){
 "use strict";
 
 
+// https://github.com/jkroso/parse-svg-path
+
 module.exports = parse;
 
 /**
@@ -4265,6 +4277,8 @@ function parseValues(args) {
 
 "use strict";
 
+
+// https://github.com/jkroso/abs-svg-path
 
 module.exports = absolutize;
 
@@ -4341,6 +4355,8 @@ function absolutize(path) {
 
 "use strict";
 
+
+// https://github.com/dy/is-svg-path
 
 module.exports = function isPath(str) {
   if (typeof str !== 'string') return false;

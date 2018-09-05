@@ -1,14 +1,11 @@
 {
   "name": "svg-path-to-canvas",
-  "version": "1.9.5",
+  "version": "1.9.6",
   "description": "",
   "main": "lib/index.js",
   "browser": {
     "./src/platform": "./src/platform/browser",
     "./lib/platform": "./lib/platform/browser"
-  },
-  "esnext": {
-    "./lib/index.js": "./src/index.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -22,7 +19,7 @@
   "dependencies": {
     "babel-runtime": "^6.26.0",
     "point-at-length": "^1.1.0",
-    "sprite-math": "^1.0.4"
+    "sprite-math": "^1.0.5"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
