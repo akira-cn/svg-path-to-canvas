@@ -1,7 +1,5 @@
 // https://github.com/jkroso/parse-svg-path
 
-module.exports = parse;
-
 /**
  * expected argument lengths
  * @type {Object}
@@ -25,7 +23,7 @@ var segment = /([astvzqmhlc])([^astvzqmhlc]*)/ig
  * @return {Array}
  */
 
-function parse(path) {
+export default function parse(path) {
 	var data = []
 	path.replace(segment, function(_, command, args){
 		var type = command.toLowerCase()

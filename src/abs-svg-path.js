@@ -1,7 +1,5 @@
 // https://github.com/jkroso/abs-svg-path
 
-module.exports = absolutize;
-
 /**
  * redefine `path` with absolute coordinates
  *
@@ -10,7 +8,7 @@ module.exports = absolutize;
  */
 
 /* eslint-disable */
-function absolutize(path){
+export default function absolutize(path){
 	var startX = 0
 	var startY = 0
 	var x = 0

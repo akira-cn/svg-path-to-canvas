@@ -1,9 +1,9 @@
 import {Matrix} from 'sprite-math';
 import {isPointInPath, getPointAtLength, getTotalLength} from './platform';
-const parse = require('./parse-svg-path');
-const abs = require('./abs-svg-path');
-const normalize = require('./normalize-svg-path');
-const isSvgPath = require('./is-svg-path');
+import parse from './parse-svg-path';
+import abs from './abs-svg-path';
+import normalize from './normalize-svg-path';
+import isSvgPath from './is-svg-path';
 
 const _path = Symbol('path');
 const _bounds = Symbol('bounds');

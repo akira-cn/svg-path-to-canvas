@@ -1,11 +1,8 @@
 // https://github.com/jkroso/normalize-svg-path
-
-module.exports = normalize;
-
-const a2c = require('./a2c');
+import a2c from './a2c';
 
 /* eslint-disable */
-function normalize(path){
+export default function normalize(path){
   // init state
   var prev
   var result = []

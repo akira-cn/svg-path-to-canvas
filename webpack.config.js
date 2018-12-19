@@ -1,34 +1,34 @@
-const path = require('path')
-const fs = require('fs')
+const path = require('path');
+const fs = require('fs');
 
-let babelConf
+let babelConf;
 if(fs.existsSync('./.babelrc')) {
   // use babel
-  babelConf = JSON.parse(fs.readFileSync('.babelrc'))
+  babelConf = JSON.parse(fs.readFileSync('.babelrc'));
 }
 
 
 module.exports = function (env = {}) {
-  const externals = {}
-  const aliasFields = env.nobrowser ? ['nobrowser', 'esnext'] : ['browser', 'esnext']
+  const externals = {};
+  const aliasFields = env.nobrowser ? ['nobrowser', 'esnext'] : ['browser', 'esnext'];
   const output = {
     path: path.resolve(__dirname, 'dist'),
     filename: 'svg-path-to-canvas.js',
     publicPath: '/js/',
     library: 'SvgPath',
     libraryTarget: 'umd',
-  }
+  };
 
   if(env.production) {
-    output.filename = 'svg-path-to-canvas.min.js'
+    output.filename = 'svg-path-to-canvas.min.js';
   }
   if(env.nobrowser) {
-    output.filename = 'svg-path-to-canvas.nobrowser.js'
+    output.filename = 'svg-path-to-canvas.nobrowser.js';
   }
 
   return {
     mode: env.production ? 'production' : 'none',
-    entry: './src/_entry',
+    entry: './src/index',
     output,
 
     module: {
@@ -68,5 +68,5 @@ module.exports = function (env = {}) {
 
 
     /* Advanced configuration (click to show) */
-  }
-}
+  };
+};
