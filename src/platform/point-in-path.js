@@ -1,4 +1,5 @@
 // https://github.com/maxnachlinger/point-in-svg-path
+import normalize from '../normalize-svg-path';
 
 const clone = (obj) => {
   if(typeof obj === 'function' || Object(obj) !== obj) {
@@ -452,7 +453,6 @@ function curveDim(x0, y0, x1, y1, x2, y2, x3, y3) {
   };
 }
 
-const normalize = require('../normalize-svg-path');
 export default function pointInPath(path, x, y) {
   const bbox = pathBBox(path);
 

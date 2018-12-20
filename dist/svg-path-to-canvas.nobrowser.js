@@ -3062,9 +3062,11 @@ var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
 exports.default = pointInPath;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _normalizeSvgPath = __webpack_require__(117);
 
-// https://github.com/maxnachlinger/point-in-svg-path
+var _normalizeSvgPath2 = _interopRequireDefault(_normalizeSvgPath);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var clone = function clone(obj) {
   if (typeof obj === 'function' || Object(obj) !== obj) {
@@ -3082,7 +3084,8 @@ var clone = function clone(obj) {
   }
   /* eslint-enable no-restricted-syntax */
   return res;
-};
+}; // https://github.com/maxnachlinger/point-in-svg-path
+
 
 function paths(ps) {
   var p = paths.ps = paths.ps || {};
@@ -3493,7 +3496,6 @@ function curveDim(x0, y0, x1, y1, x2, y2, x3, y3) {
   };
 }
 
-var normalize = __webpack_require__(117);
 function pointInPath(path, x, y) {
   var bbox = pathBBox(path);
 
@@ -3501,7 +3503,7 @@ function pointInPath(path, x, y) {
     return false;
   }
 
-  if (interPathHelper(path, normalize([['M', x, y], ['H', bbox.x2 + 10]]), 1) % 2 !== 1) {
+  if (interPathHelper(path, (0, _normalizeSvgPath2.default)([['M', x, y], ['H', bbox.x2 + 10]]), 1) % 2 !== 1) {
     return false;
   }
 
