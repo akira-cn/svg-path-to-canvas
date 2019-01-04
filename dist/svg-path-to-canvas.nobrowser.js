@@ -2459,6 +2459,7 @@ exports.default = Vector;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.isPointInStroke = undefined;
 
 var _map = __webpack_require__(96);
 
@@ -2502,6 +2503,8 @@ function isPointInPath(_ref, x, y) {
 
   return (0, _pointInPath2.default)(path, x, y);
 }
+
+var isPointInStroke = exports.isPointInStroke = null;
 
 /***/ }),
 /* 96 */

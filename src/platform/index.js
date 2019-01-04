@@ -26,3 +26,5 @@ export function getTotalLength(d) {
 export function isPointInPath({path}, x, y) {
   return pointInPath(path, x, y);
 }
+
+export const isPointInStroke = null;
