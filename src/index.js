@@ -1,5 +1,5 @@
 import {Matrix} from 'sprite-math';
-import {isPointInPath, getPointAtLength, getTotalLength} from './platform';
+import {isPointInPath, isPointInStroke, getPointAtLength, getTotalLength} from './platform';
 import parse from './parse-svg-path';
 import abs from './abs-svg-path';
 import normalize from './normalize-svg-path';
@@ -90,6 +90,13 @@ class SvgPath {
 
   isPointInPath(x, y) {
     return isPointInPath(this, x, y);
+  }
+
+  isPointInStroke(x, y, {lineWidth = 1, lineCap = 'butt', lineJoin = 'miter'}) {
+    if(isPointInStroke) {
+      return isPointInStroke(this, x, y, {lineWidth, lineCap, lineJoin});
+    }
+    // node-canvas return undefined
   }
 
   getPointAtLength(len) {

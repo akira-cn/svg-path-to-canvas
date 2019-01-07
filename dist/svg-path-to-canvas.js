@@ -208,6 +208,21 @@ var SvgPath = function () {
       return (0, _platform.isPointInPath)(this, x, y);
     }
   }, {
+    key: 'isPointInStroke',
+    value: function isPointInStroke(x, y, _ref) {
+      var _ref$lineWidth = _ref.lineWidth,
+          lineWidth = _ref$lineWidth === undefined ? 1 : _ref$lineWidth,
+          _ref$lineCap = _ref.lineCap,
+          lineCap = _ref$lineCap === undefined ? 'butt' : _ref$lineCap,
+          _ref$lineJoin = _ref.lineJoin,
+          lineJoin = _ref$lineJoin === undefined ? 'miter' : _ref$lineJoin;
+
+      if (_platform.isPointInStroke) {
+        return (0, _platform.isPointInStroke)(this, x, y, { lineWidth: lineWidth, lineCap: lineCap, lineJoin: lineJoin });
+      }
+      // node-canvas return undefined
+    }
+  }, {
     key: 'getPointAtLength',
     value: function getPointAtLength(len) {
       return (0, _platform.getPointAtLength)(this.d, len);
