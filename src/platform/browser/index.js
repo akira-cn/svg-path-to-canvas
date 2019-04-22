@@ -24,12 +24,14 @@ export function isPointInPath({d}, x, y) {
 
 export function isPointInStroke({d}, x, y, {lineWidth = 1, lineCap = 'butt', lineJoin = 'miter'}) {
   if(!context) context = document.createElement('canvas').getContext('2d');
-  context.save();
-  context.lineWidth = lineWidth;
-  context.lineCap = lineCap;
-  context.lineJoin = lineJoin;
-  const path = new Path2D(d);
-  const ret = context.isPointInStroke(path, x, y);
-  context.restore();
-  return ret;
+  if(context.isPointInStroke) {
+    context.save();
+    context.lineWidth = lineWidth;
+    context.lineCap = lineCap;
+    context.lineJoin = lineJoin;
+    const path = new Path2D(d);
+    const ret = context.isPointInStroke(path, x, y);
+    context.restore();
+    return ret;
+  }
 }
