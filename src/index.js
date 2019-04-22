@@ -77,14 +77,23 @@ class SvgPath {
   }
 
   get d() {
-    return this[_path].map((p) => {
+    let path = this[_path].map((p) => {
       const [c, ...points] = p;
       return c + points.join();
     }).join('');
+    if(this.isClosed) {
+      path += 'Z';
+    }
+    return path;
   }
 
   get path() {
     return this[_path];
+  }
+
+  get isClosed() {
+    const part = this[_initialPath][this[_initialPath].length - 1];
+    return part && part[0] === 'Z';
   }
 
   isPointInPath(x, y) {
@@ -171,8 +180,8 @@ class SvgPath {
           context.bezierCurveTo(...args);
         }
       });
-      if (this[_initialPath][this[_initialPath].length - 1][0] === 'Z') {
-        context.closePath()
+      if(this.isClosed) {
+        context.closePath();
       }
     }
     Object.assign(context, renderProps);
