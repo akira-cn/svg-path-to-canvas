@@ -5,6 +5,7 @@ import abs from './abs-svg-path';
 import normalize from './normalize-svg-path';
 import isSvgPath from './is-svg-path';
 
+const _initialPath = Symbol('initialPath');
 const _path = Symbol('path');
 const _bounds = Symbol('bounds');
 const _savedPaths = Symbol('savedPaths');
@@ -17,10 +18,8 @@ class SvgPath {
       throw new Error('Not an SVG path!');
     }
 
-    const path = normalize(abs(parse(d)));
-
-    this[_path] = path;
-
+    this[_initialPath] = abs(parse(d));
+    this[_path] = normalize(this[_initialPath]);
     this[_bounds] = null;
     this[_savedPaths] = [];
     this[_renderProps] = {};
@@ -172,6 +171,9 @@ class SvgPath {
           context.bezierCurveTo(...args);
         }
       });
+      if (this[_initialPath][this[_initialPath].length - 1][0] === 'Z') {
+        context.closePath()
+      }
     }
     Object.assign(context, renderProps);
     return {
